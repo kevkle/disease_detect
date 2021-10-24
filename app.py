@@ -5,7 +5,20 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 @app.route("/", methods=["GET", "POST"])
-def adder_page():
+def diagnosis_page():
+    if request.method == "POST":
+        string1 = request.form["string1"]
+        if string1 is not None:
+            result = matching_codes(string1)
+            return '''
+                <html>
+                    <body>
+                        <p>The result is {result}</p>
+                        <p><a href="/">Click here to make a new diagnosis </a>
+                    </body>
+                </html>
+            '''.format(result=result)
+
     return '''
         <html>
             <body>
