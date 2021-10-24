@@ -9,18 +9,27 @@ disease_dict = {"Arterienriss": "I77.2",
                 "Zungengrundkarzinom": "C01"}
 
 
-string = 'Karzinom des Zungengrundes'
+def matching_codes(string):
+    string_list = string.split()
+    if 'des' in string_list:
+        if string_list[2][-2:] == 'es':
+            string_list[2] = string_list[2][:-2]
+        elif string_list[2][-1:] == 's':
+            string_list[2] = string_list[2][:-1]
 
-string_list = string.split()
-if 'des' in string_list:
-    if string_list[2][-2:] == 'es':
-        string_list[2] = string_list[2][:-2]
-    elif string_list[2][-1:] == 's':
-        string_list[2] = string_list[2][:-1]
+    string_list.pop(1)
+    assert len(string_list) == 2
 
-string_list.pop(1)
+    var = "not found"
 
-new_string = re.split("der | des", string)
+    for word in disease_dict.keys():
+        if string_list[0].lower() in word.lower() and string_list[1].lower() in word.lower():
+            var = disease_dict[word]
+
+    return var
+
+
+
 
 
 
